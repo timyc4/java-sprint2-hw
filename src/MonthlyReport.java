@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class MonthlyReport {
     String item_name;   // название товара
     boolean is_expense; // одно из двух значений: TRUE или FALSE. Обозначает, является ли запись тратой (TRUE) или доходом (FALSE);
@@ -11,6 +13,9 @@ public class MonthlyReport {
         this.unit_price = unit_price;
     }
 
+    void readerAllMothlyReport(){
+        FileReader fileReader = new FileReader();
 
+    }
 
 }
