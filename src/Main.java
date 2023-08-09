@@ -7,12 +7,14 @@ public class Main {
         // Поехали!
         Scanner scanner = new Scanner(System.in);
         YearlyReport yearlyReport = new YearlyReport();
+        MonthlyReport monthlyReport = new MonthlyReport();
 
         while (true){
             printMenu();
             byte i = scanner.nextByte();
             switch (i){
                 case 1:
+                    monthlyReport.loadReport();
                     break;
                 case 2:
                     yearlyReport.loadReport("y.2021.csv");
@@ -20,25 +22,13 @@ public class Main {
                 case 3:
                     break;
                 case 4:
+                    monthlyReport.monthReport();
                     break;
                 case 5:
-                    printFiveMenu();
-                    byte k = scanner.nextByte();
-                    switch (k){
-                        case 1:
-                            yearlyReport.printYearReport();
-                        break;
-                        case 2:
-                            yearlyReport.printPribil();
-                        break;
-                        case 3:
-                            System.out.println("Средний расход в месяц: " + yearlyReport.printMiddleRashodYear());
-                        break;
-                        case 4:
-                            System.out.println("Средний доход в месяц: " + yearlyReport.printMiddleDohodYear());
-                            break;
-                        default:
-                            System.out.println("Такой команды нет");                    }
+                    yearlyReport.printYearReport();
+                    yearlyReport.printPribil();
+                    System.out.println("Средний расход в месяц: " + yearlyReport.printMiddleRashodYear());
+                    System.out.println("Средний доход в месяц: " + yearlyReport.printMiddleDohodYear());
                     break;
                 case 0:
                     System.out.println("Выход из программы");
@@ -61,12 +51,5 @@ public class Main {
 
     }
 
-    static void printFiveMenu(){
-        System.out.println("Выберите действие: ");
-        System.out.println("1 - Показать годовой отчет");
-        System.out.println("2 - Вывести прибыль по каждому месяцу");
-        System.out.println("3 - Cредний расход за все имеющиеся операции в году");
-        System.out.println("4 - Cредний доход за все имеющиеся операции в году");
-    }
 }
 
