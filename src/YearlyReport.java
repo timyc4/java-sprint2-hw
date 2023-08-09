@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.SortedMap;
 
 public class YearlyReport {
     public ArrayList<Year> years = new ArrayList<>();       //все объекты
@@ -55,7 +54,6 @@ public class YearlyReport {
                         pribil.put(month.month, month.amount + wer);
                 }
             }
-        System.out.println(pribil);
         for (Integer month : pribil.keySet()) {
             String key = month.toString();
             String value = pribil.get(month).toString();
