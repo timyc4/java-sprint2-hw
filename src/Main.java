@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -8,11 +7,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         YearlyReport yearlyReport = new YearlyReport();
         MonthlyReport monthlyReport = new MonthlyReport();
+        Checker checker = new Checker(yearlyReport, monthlyReport);
 
-        while (true){
+        while (true) {
             printMenu();
             byte i = scanner.nextByte();
-            switch (i){
+            switch (i) {
                 case 1:
                     monthlyReport.loadReport();
                     break;
@@ -20,15 +20,13 @@ public class Main {
                     yearlyReport.loadReport("y.2021.csv");
                     break;
                 case 3:
+                    checker.checkReport();
                     break;
                 case 4:
                     monthlyReport.monthReport();
                     break;
                 case 5:
-                    yearlyReport.printYearReport();
-                    yearlyReport.printPribil();
-                    System.out.println("Средний расход в месяц: " + yearlyReport.printMiddleRashodYear());
-                    System.out.println("Средний доход в месяц: " + yearlyReport.printMiddleDohodYear());
+                    yearlyReport.yearReport();
                     break;
                 case 0:
                     System.out.println("Выход из программы");
@@ -41,7 +39,7 @@ public class Main {
         }
     }
 
-    static void printMenu(){
+    static void printMenu() {
         System.out.println("Выберите действие: ");
         System.out.println("1 - Считать месячные отчеты");
         System.out.println("2 - Считать годовой отчет");
