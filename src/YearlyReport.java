@@ -2,12 +2,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class YearlyReport {
-    public ArrayList<Year> years = new ArrayList<>();       //все объекты
+    ArrayList<Year> years = new ArrayList<>();//все объекты
+    HashMap<Integer, Integer> pribil = new HashMap<>();
+    HashMap<Integer, Integer> dohodyYear = new HashMap<>();
+    HashMap<Integer, Integer> rashodyYear = new HashMap<>();
 
 
-    /** loadReport - загружает объекты в лист years*/
-    void loadReport (String path){
-        if(years.size() == 0) {
+    /**
+     * loadReport - загружает объекты в лист years*
+     * и раскидывает отчет (TRUE или FALSE) в мапы dohodyYear и rashodyYear
+     * чтобы потом в Checker сравнить
+     */
+
+    void loadReport(String path) {
+        if (years.size() == 0) {
             FileReader fileReader = new FileReader();
             ArrayList<String> lines = fileReader.readFileContents(path);
             for (int i = 1; i < lines.size(); i++) {
@@ -19,41 +27,65 @@ public class YearlyReport {
 
                 Year year = new Year(month, amount, isExpense);
                 years.add(year);
+                if (year.isEpense) {
+                    rashodyYear.put(year.month, year.amount);           //чтобы проще было сравнивать с месячными отчетами по расходам
+                } else {
+                    dohodyYear.put(year.month, year.amount);            //чтобы проще было сравнивать с месячными отчетами по тратам
+                }
             }
         }
     }
-    void printYearReport (){
-        if (years.size() == 0){
-            System.out.println("Данные не загружены");
-        } else
-            for (Year month : years) {
-                if(!month.isEpense)
-                    System.out.println("Доход за " + month.month + " месяц составила " + month.amount + " рублей.");
-                if(month.isEpense)
-                    System.out.println("Траты за " + month.month + " месяц составила " + month.amount + " рублей.");
-            }
+
+    /**
+     * yearReport - содержит все методы для вывода
+     */
+
+    void yearReport() {
+        if (years.size() == 0) {
+            System.out.println("Сначала загрузите отчет за год!");
+        } else {
+            printYearReport();
+            printPribil();
+            printMiddleRashodYear();
+            printMiddleDohodYear();
+        }
+
     }
 
-    void printPribil(){
-        HashMap<Integer,Double> pribil = new HashMap<>();
-        if (years.size() == 0){
-            System.out.println("Данные не загружены");
-        } else
-            for (Year month : years) {
-                if(!pribil.containsKey(month.month)) {
-                    if (!month.isEpense){
-                        pribil.put(month.month, month.amount);
-                    } else
-                        pribil.put(month.month, - month.amount);
+    /**
+     * printYearReport - печатает доходы и траты за каждый месяц
+     */
 
-                } else {
-                    double wer = pribil.get(month.month);
-                    if (month.isEpense){
-                        pribil.put(month.month, wer - month.amount);
-                    } else
-                        pribil.put(month.month, month.amount + wer);
-                }
+    void printYearReport() {
+
+        for (Year month : years) {
+            if (!month.isEpense)
+                System.out.println("Доход за " + month.month + " месяц составила " + month.amount + " рублей.");
+            if (month.isEpense)
+                System.out.println("Траты за " + month.month + " месяц составила " + month.amount + " рублей.");
+        }
+    }
+
+    /**
+     * printPribil - высчитывает выручку по кажому месяцу по формуле (прибыль-траты)
+     */
+
+    void printPribil() {
+        for (Year month : years) {
+            if (!pribil.containsKey(month.month)) {
+                if (!month.isEpense) {
+                    pribil.put(month.month, month.amount);
+                } else
+                    pribil.put(month.month, -month.amount);
+
+            } else {
+                int wer = pribil.get(month.month);
+                if (month.isEpense) {
+                    pribil.put(month.month, wer - month.amount);
+                } else
+                    pribil.put(month.month, month.amount + wer);
             }
+        }
         for (Integer month : pribil.keySet()) {
             String key = month.toString();
             String value = pribil.get(month).toString();
@@ -62,34 +94,42 @@ public class YearlyReport {
 
     }
 
-    Double printMiddleRashodYear(){
+    /**
+     * printMiddleRashodYear - ситает среднюю трату в месяц за все месяцы из отчета
+     */
+
+    void printMiddleRashodYear() {
         int count = 0;
         double sum = 0;
-        if (years.size() == 0){
+        if (years.size() == 0) {
             System.out.println("Данные не загружены");
         } else
             for (Year month : years) {
-                if(month.isEpense){
+                if (month.isEpense) {
                     count++;
                     sum += month.amount;
                 }
             }
-            return sum/count;
+        System.out.println("Средний расоход в месяц: " + sum / count);
     }
 
-    Double printMiddleDohodYear(){
+    /**
+     * printMiddleDohodYear - ситает среднюю выручку в месяц за все месяцы из отчета
+     */
+
+    void printMiddleDohodYear() {
         int count = 0;
         double sum = 0;
-        if (years.size() == 0){
+        if (years.size() == 0) {
             System.out.println("Данные не загружены");
         } else
             for (Year month : years) {
-                if(!month.isEpense){
+                if (!month.isEpense) {
                     count++;
                     sum += month.amount;
                 }
             }
-        return sum/count;
+        System.out.println("Средний доход в месяц: " + sum / count);
     }
 
 }
