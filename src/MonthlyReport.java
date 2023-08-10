@@ -5,7 +5,11 @@ public class MonthlyReport {
 
     ArrayList<Month> reportMonth = new ArrayList<>();
     HashMap<Integer, ArrayList<Month>> allReportMonth = new HashMap<>();
+    HashMap<Integer, Integer> dohody = new HashMap<>();
+    HashMap<Integer, Integer> rashody = new HashMap<>();
 
+
+    /** loadReport - загружает объекты в лист allReportMonth */
 
     void loadReport(){
         for (int i = 1; i <= 3; i++) {
@@ -28,9 +32,11 @@ public class MonthlyReport {
         }
     }
 
+    /** monthReport - содержит все методы для вывода */
+
     void monthReport() {
         if(allReportMonth.size() == 0){
-            System.out.println("Сначала загрузите отчет!");
+            System.out.println("Сначала загрузите месячные отчеты!");
         }
         for (Integer month : allReportMonth.keySet()) {
             if (month == 1){
@@ -51,6 +57,8 @@ public class MonthlyReport {
         }
     }
 
+    /** bestItemName - ищет по кажому месяцу самый прибыльный товар */
+
     void bestItemName(Integer month) {
         int maxExpense = 0;
         String bestItem = "";
@@ -70,6 +78,8 @@ public class MonthlyReport {
         System.out.println("Самым прибыльным товаром в этом месяце является " + bestItem + "(" +maxExpense+ " рублей.)");
     }
 
+    /** worstItemName - ищет по кажому месяцу самый дорогой товар */
+
     void worstItemName(Integer month) {
         int maxExpense = 0;
         String worstItem = "";
@@ -87,5 +97,29 @@ public class MonthlyReport {
             }
         }
         System.out.println("Самой дорогой тратой в этом месяце является " + worstItem + "(" +maxExpense+ " рублей.)");
+    }
+
+    /** monthDohodIRashod - раскидывает по двум мапам расходы и доходы по месяцам
+     * чтобы потом в Checker сравнить
+     * */
+    void monthDohodIRashod(){
+        int dohod = 0;
+        int rashod = 0;
+        for (Integer month : allReportMonth.keySet()) {
+            ArrayList<Month> moths = allReportMonth.get(month);{
+                for (Month moth : moths) {
+                    int sum = moth.quantity * moth.unit_price;
+                    if(!moth.is_expense){
+                        dohod += sum;
+                        dohody.put(month, dohod);
+                    } else {
+                        rashod += sum;
+                        rashody.put(month,rashod);
+                    }
+                }
+            }
+            dohod = 0;
+            rashod = 0;
+        }
     }
 }
