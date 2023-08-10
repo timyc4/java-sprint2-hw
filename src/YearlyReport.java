@@ -89,7 +89,7 @@ public class YearlyReport {
         for (Integer month : pribil.keySet()) {
             String key = month.toString();
             String value = pribil.get(month).toString();
-            System.out.println("За " + key + " месяц выручка составила " + value);
+            System.out.println("За " + key + " месяц прибыль составила " + value);
         }
 
     }
