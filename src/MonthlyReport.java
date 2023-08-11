@@ -29,6 +29,7 @@ public class MonthlyReport {
                 reportMonth.add(month);
         }
             allReportMonth.put(i, reportMonth);
+            System.out.println("Отчёт " + m + " успешно загружен.");
         }
     }
 
