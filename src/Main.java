@@ -46,6 +46,7 @@ public class Main {
         System.out.println("3 - Сверить отчеты");
         System.out.println("4 - Вывести информацию обо всех месячных отчётах");
         System.out.println("5 - Вывести информацию о годовом отчёте");
+        System.out.println("0 - Выйти из программы");
 
     }
 
