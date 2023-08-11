@@ -15,7 +15,6 @@ public class YearlyReport {
      */
 
     void loadReport(String path) {
-        if (years.size() == 0) {
             FileReader fileReader = new FileReader();
             ArrayList<String> lines = fileReader.readFileContents(path);
             for (int i = 1; i < lines.size(); i++) {
@@ -33,7 +32,7 @@ public class YearlyReport {
                     dohodyYear.put(year.month, year.amount);            //чтобы проще было сравнивать с месячными отчетами по тратам
                 }
             }
-        }
+        System.out.println("Отчёт " + path + " успешно загружен.");
     }
 
     /**
